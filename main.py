@@ -1,5 +1,6 @@
 import undetected_chromedriver as uc
 from dotenv import dotenv_values
+import random
 from Drivers.TinderDriver import TinderDriver
 
 config = dotenv_values(".env")
@@ -14,6 +15,14 @@ def main():
     tinder.check_for_login()
 
     bytes = tinder.get_image()
+
+    for i in range(100):
+        tinder.handle_popup()
+        r = random.random()
+        if r < 0.7:
+            tinder.dislike()
+        else:
+            tinder.like()
 
     while True:
         pass
