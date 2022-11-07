@@ -6,9 +6,11 @@ import time
 class AbstractDriver(ABC):
     url: str
     driver: Chrome
+    preferences: dict
 
-    def __init__(self, driver: Chrome):
+    def __init__(self, driver: Chrome, preferences: dict):
         self.driver = driver
+        self.preferences = preferences
 
     @abstractmethod
     def check_for_login(self):

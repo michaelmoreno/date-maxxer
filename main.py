@@ -11,21 +11,11 @@ def main():
     options.add_argument("--disable-notifications")
 
     driver = uc.Chrome(options=options)
-    tinder = TinderDriver(driver)
+    tinder = TinderDriver(driver, {'races': ['asian', 'latino hispanic'], 'genders': ['Woman']})
     tinder.check_for_login()
 
-    bytes = tinder.get_image()
-
-    for i in range(100):
-        tinder.handle_popup()
-        r = random.random()
-        if r < 0.7:
-            tinder.dislike()
-        else:
-            tinder.like()
-
-    while True:
-        pass
+    tinder.run()
+    
 
 if __name__ == '__main__':
     main()
