@@ -27,6 +27,10 @@ class AbstractDriver(ABC):
     @abstractmethod
     def handle_popup(self):
         ...
+    
+    @abstractmethod
+    def get_image(self) -> bytes:
+        ...
 
     def simulate_reaction_time(self):
         r = random.random()

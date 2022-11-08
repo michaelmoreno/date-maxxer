@@ -36,11 +36,7 @@ class TinderDriver(AbstractDriver):
         except TimeoutException:
             return None
         
-        with open('temp/tinder.png', 'wb') as file:
-            file.write(element.screenshot_as_png)
-        cv2.imshow('Tinder', cv2.imread('temp/tinder.png'))
-        cv2.waitKey(1)
-        
+        return element.screenshot_as_png
 
     def like(self):
         self.simulate_reaction_time()
@@ -73,7 +69,11 @@ class TinderDriver(AbstractDriver):
         return True
 
     def analyze_face(self, attempts: int = 4):
-        self.get_image()
+        bytes = self.get_image()
+        with open("temp/tinder.png", "wb") as f:
+            f.write(bytes) # type: ignore
+        cv2.imshow('Tinder', cv2.imread('temp/tinder.png'))
+        cv2.waitKey(1)
         print("Scanning photo..." + Fore.RESET)
         try:
             
