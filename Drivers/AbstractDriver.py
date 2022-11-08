@@ -16,6 +16,18 @@ class AbstractDriver(ABC):
     def check_for_login(self):
         pass
 
+    @abstractmethod
+    def like(self):
+        ...
+
+    @abstractmethod
+    def dislike(self):
+        ...
+
+    @abstractmethod
+    def handle_popup(self):
+        ...
+
     def simulate_reaction_time(self):
         r = random.random()
         if r < 0.7:
