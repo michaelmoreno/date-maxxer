@@ -1,10 +1,7 @@
 import time
 import random
-import cv2
 from undetected_chromedriver import Chrome
-from deepface import DeepFace
 from colorama import Fore
-from pprint import pprint
 
 from Drivers.AbstractDriver import AbstractDriver
 from selenium.webdriver.common.by import By
@@ -18,8 +15,8 @@ class TinderDriver(AbstractDriver):
     url: str = "https://tinder.com"
     driver: Chrome
 
-    def __init__(self, driver: Chrome, preferences: dict):
-        super().__init__(driver, preferences)
+    def __init__(self, driver: Chrome):
+        super().__init__(driver)
 
     def check_for_login(self):
         self.driver.get(self.url)
@@ -61,41 +58,3 @@ class TinderDriver(AbstractDriver):
         time.sleep(random.uniform(0.1, 0.3))
         self.driver.find_element(By.TAG_NAME, "body").send_keys(Keys.SPACE)
     
-    def _meets_preferences(self, analysis: dict) -> bool:
-        if analysis['dominant_race'] not in self.preferences['races']:
-            return False
-        if analysis['gender'] not in self.preferences['genders']:
-            return False
-        return True
-
-    def analyze_face(self, attempts: int = 4):
-        bytes = self.get_image()
-        with open("temp/tinder.png", "wb") as f:
-            f.write(bytes) # type: ignore
-        cv2.imshow('Tinder', cv2.imread('temp/tinder.png'))
-        cv2.waitKey(1)
-        print("Scanning photo..." + Fore.RESET)
-        try:
-            
-            analysis = DeepFace.analyze("temp/tinder.png", actions = ['race', 'gender'])
-            print(Fore.GREEN + 'Analysis:')
-            pprint(analysis)
-            print(Fore.RESET)
-            if self._meets_preferences(analysis):
-                self.like()
-            else:
-                self.dislike()
-            return
-        except:
-            print(Fore.YELLOW + "No face detected, trying next photo..." + Fore.RESET)
-            self.next_picture()
-            if attempts > 0:
-                self.analyze_face(attempts - 1)
-            else:
-                print(Fore.RED + "No faces detected, skipping profile" + Fore.RESET)
-                self.dislike()
-
-    def run(self):
-        while True:
-            self.handle_popup()
-            self.analyze_face()
