@@ -22,7 +22,8 @@ class TinderDriver(AbstractDriver):
         self.driver.get(self.url)
 
     def get_image(self):
-        xpath = '//*[@id="o-2124353878"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div[1]/div[1]'
+        xpath = '//*[@id="s-662773879"]/div/div[1]/div/main/div[1]/div/div/div[1]/div[1]/div/div[3]/div[1]'
+        
         try:
             WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, xpath)))
