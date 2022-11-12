@@ -30,6 +30,10 @@ class AbstractDriver(ABC):
     def get_image(self) -> bytes:
         ...
 
+    @abstractmethod
+    def next_picture(self):
+        ...
+
     def simulate_reaction_time(self):
         r = random.random()
         if r < 0.7:
